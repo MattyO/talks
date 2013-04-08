@@ -3,6 +3,12 @@
     <head>
         <link rel="stylesheet" href="css/reveal.min.css">
         <link rel="stylesheet" href="css/theme/default.css" id="theme">
+        <style type = "text/css">
+            .big-font{
+                font-size:30pt;
+            }
+            
+        </style>
     </head>
 
     <body>
@@ -14,25 +20,96 @@
                 </section>
 
                 <section>
-                    <h1> The Constraints <h1>
-                    <h2> All high level objects are Immutable <h2>
+                    <section>
+                        <h2> Funational ??? </h2>
+                            <p> ...treats computation as the evaluation of mathematical functions and avoids state and mutable data.</p>
+                            <ul> 
+                                <li> avoids state? </li>
+                                <li> evaluation of mathematical funtions? </li>
+                                <li> mutable? </li>
+                            </ul>
+                    </section>
+                    <section>
+                        <h2> evaluation of mathematical functions </h2>
+                    </section>
+                    <section>
+                        <h2> f(x) = x + 2</h2>
+                    </section>
+
+                    <section id="add-two">
+<pre><span style="font-size:25pt">
+def f(x):
+    return x + 2
+</span></pre>
+                    </section>
+
+                    <section id="add-two-with-state">
+<pre><span style="font-size:25pt">
+def f(x):
+    global sum equals x + 2
+    save sum in database
+    return true if save was successful.
+</span></pre>
+                    </section>
+
+                    <section>
+                        <h1> Edges <h1>
+                    </section>
+                    <section>
+                        <h2> [1,2,3] -> [2,3,4] -> [9]
+                    </section>
+                    <section>
+                        <h2> [1,2,3] -f(x)-> [2,3,4] -y(x)-> [9] </h2>
+                    </section>
+
+                </section>
+
+                <section> 
+                    <h1> So not functional </h1>
+                    <h2>but steals core principles for major operations </h2>
+                </section>
+
+                <section>
+                    <section>
+                        <h1> The Constraints <h1>
+                        <h2> Defined classes can't have <i>public</i> methods </h2>
+                        <p> complete speration of data and functions </p>
+                    </section>
+                    <section>
+                        <h2> Why only high level objects ? <h2>
+                    </section>
                 </section>
 
                 <section>
                     <section>
                         <h2> Making objects Immutable </h2>
                     </section>
-                    <section> 
-                        <h2> Code </h2>
-                    </section>
-                </section>
+                    <section id="functional-tools"> 
 
-                <section>
+<pre><span style="font-size:25pt">
+    def __setattr__(self, name, value):
+        raise Exception()
+</span></pre>
+                    </section>
+                    <section>
+<pre><span style="font-size:20pt">
+class ImmutableClass():
+    def __init__(self, attrs={}):
+        self.__dict__ = attrs
+
+    def __setattr__(self, name, value):
+        raise Exception("Immutable Class can't be changed")
+
+da_instance = ImmutableClass({"name":"matt"})
+da_instance.name 
+>>matt
+</span></pre>
+                    </section>
                     <section> 
                         <h2> How do I add data to them ? </h2>
                     </section>
                     <section> 
-                        <h2> Code </h2>
+                        <h2> Making a app stateless </h2>
                     </section>
                 </section>
 
@@ -40,44 +117,76 @@
                     <h2> Caviots </h2>
                 </section>
 
-                <section>
-                    <h1> Patterns </h1>
-                </section>
 
-                <section> 
-                    <section> 
-                        <h2> Getting and setting data </h2>
-                    </section>
-                    <section> 
-                        <h2> Code </h2>
-                    </section>
+                <section>
+                    <h1> Tools <h1>
                 </section>
 
                 <section>
                     <section> 
                         <h2> Map, filter, and list comprehensions </h2>
                     </section>
-                    <section> 
-                        <h2> Code </h2>
+
+                    <section>
+                    <h2> List Comprehensions </h2>
+<pre><span style="font-size:20pt">
+        numbers = [ num + 1 for num in range(1,11) ] 
+</pre></span>
+                    </section>
+
+                    <section>
+                    <h2> Map </h2>
+<pre><span style="font-size:20pt">
+        i_numbers = range(1,11)
+        i_numbers = map(
+                lambda i_num: i_num + 5}),
+                i_numbers)
+</pre></span>
+                    </section>
+
+                    <section>
+                    <h2> Higher order Functions</h2>
+<pre><span >
+        def converter(num):
+            return ImmutableClass({"number":num.number + 2})
+
+        i_numbers = [ ImmutableClass({"number":num}) for num in range(1,11) ] 
+
+        new_numbers = map(converter, i_numbers)
+</pre></span>
+                    </section>
+
+                    <section>
+                    <h2> Filter </h2>
+<pre><span style="font-size:20pt">
+        i_numbers = [ num for num in range(1,11) ] 
+        i_numbers = filter(lambda num: num % 2, i_numbers)
+</pre></span>
+                    </section>
+
+
+                    <section>
+                        <h2> Use for loops </h2>
                     </section>
                 </section>
 
                 <section>
-                    <h2> Funational ??? </h2>
-                        <p> ...treats computation as the evaluation of mathematical functions and avoids state and mutable data.</p>
-                        <ul> 
-                            <li> mutable? sortof </li>
-                            <li> avoids state? partly. </li>
-                            <li> evaluation of mathematical funtions. Again partly. </li>
-                        </ul>
+                    <h1> Patterns </h1>
                 </section>
 
+                <section>
+                    <section>
+                        <h2> Giving an Idea a name <h2>
+                    </section>
+                </section>
                 <section> 
-                    <h1> So not funcational </h1>
-                    <h2>but steals core principles for major operations </h2>
+                    <section> 
+                        <h2> Seperating data from functions. (SOC)  </h2>
+                    </section>
+                    <section>
+                        <h2> [1,2,3] -> [2,3,4] -> [9] </h2>
+                    </section>
                 </section>
-
-
                 <section>
                     <h1> The Good </h1>
                 </section>
@@ -88,15 +197,35 @@
                     </section>
                     <section>
                         <h2> Why should getting data from one buffer be different than another </h2>
-                        <p> saving and getting your object to a...</p>
+                        <p> saving and getting your object from/to a...</p>
                         <li> database </li>
                         <li> short term storage </li>
                         <li> a file </li>
                         <p> ...should all look the same </p>
                     </section>
                     <section>
-                        <h2> Sudo Code </h2>
+<pre>
+def _get_filtered_projects():
+    projects = ProjectList(localdata.getProjectsXML())
+    current_user = sessiondata.get_key('user_id')
+
+    user_projects = listify(localdata.user_projects(current_user))
+
+    projects = remove_private_projects(projects, user_projects)
+    projects = filter_on_ids(projects,  config.ignore)
+
+    return remove_private_projects(projects, user_projects)
+
+</pre>
                     </section>
+                    <section>
+<pre>
+[projects]-----------------> [projects] -> [projects]
+                         /
+[user id] -> [user data]/
+</pre>
+                    </section>
+
 
                 </section>
 
@@ -105,21 +234,63 @@
                 </section>
 
                 <section>
+                    <section>
                     <h2> Test are Reallier...</h2>
                     <h2> ...and more expressive because of it ! </h2>
-                </section>
+                    </section>
+                    
+                    <section>
+<pre>
+    def test_remove_private_projects(self):
+        my_project_ids=[2222222]
+        project_list = [
+            Project({"id":"1111111", "public":"false", "name":"Project 1"}),
+            Project({"id":"2222222", "public":"false", "name":"Project 2"}),
+            Project({"id":"3333333", "public":"true", "name":"Project 3"})]
 
+        public_projects = remove_private_projects(project_list, my_project_ids)
+
+        self.assertEqual(len(public_projects), 2)
+        self.assertEqual(public_projects[0].name, "Project 2")
+        self.assertEqual(public_projects[1].name, "Project 3")
+
+
+</pre>
+                    </section>
+                </section>
+                    
                 <section>
-                    <h2> Test are much easier to write </h2>
+                    <section>
+                        <h2> Test are much easier to write </h2>
+                    </section>
+                    <section>
+<pre>
+    def test_remove_private_projects(self):
+        my_project_ids=[2222222]
+        project_list = [
+            Project({"id":"1111111", "public":"false", "name":"Project 1"}),
+            Project({"id":"2222222", "public":"false", "name":"Project 2"}),
+            Project({"id":"3333333", "public":"true", "name":"Project 3"})]
+
+        public_projects = remove_private_projects(project_list, my_project_ids)
+
+        self.assertEqual(len(public_projects), 2)
+        self.assertEqual(public_projects[0].name, "Project 2")
+        self.assertEqual(public_projects[1].name, "Project 3")
+
+
+</pre>
+                    </section>
                 </section>
 
                 <section>
                     <h2> Seperation of Conserns </h2>
-                    <h2> Seperation of Funcationality </h2>
+                    <h2> Seperation of Functionality </h2>
                 </section>
 
                 <section>
                     <h2> Safer code </h2>
+                    <h2> No Side effects !!!</h2>
                 </section>
 
                 <section>
@@ -131,9 +302,65 @@
                     <h2> More code to write </h2> 
                 </section>
 
-                <section>
-                    <h2> ORM's do a lot for us </h2>
-                    <h3> Database Interactions can get out of had </h3>
+                <section>`
+                    <section>
+                        <h2> ORM's do a lot for us </h2>
+                        <h3> Database Interactions can get out of had </h3>
+                    </section>
+                    <section> 
+                        <h2> Step 1. Convert Django's ORM to hash </h2>
+<pre>
+def model_to_dict(django_model, depth=1):
+    temp_dict = {}
+    for field in django_model._meta.local_fields:
+        field_value = getattr(django_model, field.name)
+
+        if isinstance(field, ForeignKey) and field_value is not None:
+            if depth > 0:
+                temp_dict[field.name] = model_to_dict(field_value, depth - 1)
+        else:
+            temp_dict[field.name] = field_value
+
+    if depth > 0:
+        for field in django_model._meta.local_many_to_many:
+            field_list = []
+            for m2m_item in getattr(django_model, field.name).all():
+                field_list.append(model_to_dict(m2m_item, depth -1))
+            temp_dict[field.name] = field_list
+
+    return temp_dict
+</pre>
+                    </section>
+                    <section>
+                        <h2> Step 2.  Fancy hash </h2>
+<pre>
+class FancyHash():
+    def __init__(self, attrs={}):
+        for key, value in attrs.items():
+            if isinstance(value, list):
+                attrs[key] = [ImmutableModel(da_hash) for da_hash in value]
+            elif isinstance(value, dict):
+                attrs[key] = ImmutableModel(value)
+
+        self.__dict__ = attrs
+
+</pre>
+                    </section>
+                    <section>
+<pre>
+i_default = FancyHash({"name":"me"})
+print i_default.name
+>>me
+
+i_hash = FancyHash({"author":{"name":"me"}})
+print i_hash.author.name
+>>me
+
+i_list = FancyHash({"simple_list":[{"key":"value"}]})
+print i_list.simple_list[0].key
+>>value
+</pre>
+                    </section>
                 </section>
 
                 <section>
@@ -142,6 +369,7 @@
 
                 <section>
                     <h2> You aren't used to it. </h2>
+                    <pre><span style="font-size:30pt"> new_data = module.function(old_data) </span></pre>
                 </section>
 
                 <section>
@@ -150,10 +378,15 @@
 
                 <section> 
                     <h2> Problems you have anyway </h2> 
+                    <br/>
+                    <br/>
                     <h3> Understanding </h3>
                     <ul>
-                        <li> ORM caching </li>
+                        <li> ORM caching / non-caching </li>
                     </ul>
+                    <br/>
+                    <br/>
+                    <br/>
                     <h3> Writing more code for </h3>
                     <ul>
                         <li> Faster Tests </li>
@@ -163,13 +396,20 @@
                     </ul>
                 </section>
 
+                <section>
+                    <h2> Steal 'my' ideas for ... </h2>
+                    <p> abstact db interaction away when you can. </p>
+                    <p> filter, map, and list comprehension. </p>
+                    <p> use in-between objects for serialization. </p>
+                    <p> async or streaming data </p>
+                </section>
+
                 <section> 
                     <h1> Thats it !! </h1> 
                     <h3> Links </h3>
                     <ul>
                         <li> ME - @odonnell004 , mavenrd.com</li>
                         <li> Code </li>
-                        <li> Wiki </li>
                         <li> Presentation </li>
                     </ul>
             </div>
@@ -180,6 +420,14 @@
 
         <script type="text/javascript">
             Reveal.initialize({});
+        </script>
+        <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"> </script>
+        <script type="text/javascript" src="js/inject.js"></script>
+        <script type="text/javascript">
+            //inject_example("functional_tools_test.py", "functional-tools", "immutable_class");
+            //inject_example("add_two.py", "add-two");
+            //inject_example("pseudocode/add_two.", "add-two-with-state");
+         
         </script>
     </body>
 

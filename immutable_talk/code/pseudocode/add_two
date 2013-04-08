@@ -1,0 +1,4 @@
+def f(x):
+    global sum equals x + 2
+    save sum in database
+    return true is save was successful.
