@@ -5,18 +5,27 @@
         <link rel="stylesheet" href="css/theme/default.css" id="theme">
         <style type = "text/css">
             .big-font{
-                font-size:30pt;
+                color: red;
+                font-size:200pt;
+                line-height: 3em;
+                padding:10px;
             }
-            
         </style>
     </head>
 
     <body>
         <div class="reveal">
             <div class="slides">
+                <section id="functional-tools">
+                    <pre><span class="big-font" style="font-size:30pt; line-height:1em;">
+            test
+            test
+                    </span></pre>
+                </section>
+
                 <section>
-                    <h1> Immurable Patterns </h1>
-                    <h2> for Web Application </h2>
+                    <h1> Immutable Patterns </h1>
+                    <h2> for Web Applications </h2>
                 </section>
 
                 <section>
@@ -56,10 +65,10 @@ def f(x):
                         <h1> Edges <h1>
                     </section>
                     <section>
-                        <h2> [1,2,3] -> [2,3,4] -> [9]
+                        <h2> [1,2,3] -> [2,3,4] -> [2,4]
                     </section>
                     <section>
-                        <h2> [1,2,3] -f(x)-> [2,3,4] -y(x)-> [9] </h2>
+                        <h2> [1,2,3] -f(x)-> [2,3,4] -y(x)-> [2,4] </h2>
                     </section>
 
                 </section>
@@ -305,7 +314,7 @@ def _get_filtered_projects():
                 <section>`
                     <section>
                         <h2> ORM's do a lot for us </h2>
-                        <h3> Database Interactions can get out of had </h3>
+                        <h3> Database Interactions can get out of hand </h3>
                     </section>
                     <section> 
                         <h2> Step 1. Convert Django's ORM to hash </h2>
@@ -409,19 +418,22 @@ print i_list.simple_list[0].key
                     <h3> Links </h3>
                     <ul>
                         <li> ME - @odonnell004 , mavenrd.com</li>
-                        <li> Code </li>
-                        <li> Presentation </li>
+                        <li> Presentation - mavenrd.com/talks/immutable_talk/ </li>
+                        <li> Code - github.com/mattyo/talks/immutable_talk/code</li>
                     </ul>
+                </section>
             </div>
         </div>
 
         <script src="lib/js/head.min.js"></script>
         <script src="js/reveal.min.js"></script>kk
-
-        <script type="text/javascript">
-            Reveal.initialize({});
-        </script>
         <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"> </script>
+        <script type="text/javascript">
+            Reveal.initialize({
+                width: $(document).width(),
+                height:$(document).height(),
+            });
+        </script>
         <script type="text/javascript" src="js/inject.js"></script>
         <script type="text/javascript">
             //inject_example("functional_tools_test.py", "functional-tools", "immutable_class");
