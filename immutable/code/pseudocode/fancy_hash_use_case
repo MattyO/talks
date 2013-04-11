@@ -1,0 +1,11 @@
+i_default = FancyHash({"name":"me"})
+print i_default.name
+>>me
+
+i_hash = FancyHash({"author":{"name":"me"}})
+print i_hash.author.name
+>>me
+
+i_list = FancyHash({"simple_list":[{"key":"value"}]})
+print i_list.simple_list[0].key
+>>value

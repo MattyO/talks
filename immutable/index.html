@@ -3,26 +3,11 @@
     <head>
         <link rel="stylesheet" href="css/reveal.min.css">
         <link rel="stylesheet" href="css/theme/default.css" id="theme">
-        <style type = "text/css">
-            .big-font{
-                color: red;
-                font-size:200pt;
-                line-height: 3em;
-                padding:10px;
-            }
-        </style>
     </head>
 
     <body>
         <div class="reveal">
             <div class="slides">
-                <section id="functional-tools">
-                    <pre><span class="big-font" style="font-size:30pt; line-height:1em;">
-            test
-            test
-                    </span></pre>
-                </section>
-
                 <section>
                     <h1> Immutable Patterns </h1>
                     <h2> for Web Applications </h2>
@@ -31,50 +16,34 @@
                 <section>
                     <section>
                         <h2> Funational ??? </h2>
-                            <p> ...treats computation as the evaluation of mathematical functions and avoids state and mutable data.</p>
-                            <ul> 
-                                <li> avoids state? </li>
-                                <li> evaluation of mathematical funtions? </li>
-                                <li> mutable? </li>
-                            </ul>
+                        <p> ...treats computation as the <br/>evaluation of mathematical functions and<br/> avoids state and <br/>[avoids] mutable data.</p>
                     </section>
                     <section>
-                        <h2> evaluation of mathematical functions </h2>
+                        <h2> Evaluation of mathematical functions </h2>
                     </section>
                     <section>
                         <h2> f(x) = x + 2</h2>
                     </section>
 
-                    <section id="add-two">
-<pre><span style="font-size:25pt">
-def f(x):
-    return x + 2
-</span></pre>
+                    <section class="add-two">
                     </section>
 
-                    <section id="add-two-with-state">
-<pre><span style="font-size:25pt">
-def f(x):
-    global sum equals x + 2
-    save sum in database
-    return true if save was successful.
-</span></pre>
-                    </section>
+                    <section class="add-two-with-state"> </section>
 
                     <section>
                         <h1> Edges <h1>
                     </section>
                     <section>
-                        <h2> [1,2,3] -> [2,3,4] -> [2,4]
+                        <h2> [1,2,3] &#8594; [2,3,4] &#8594; [2,4]
                     </section>
                     <section>
-                        <h2> [1,2,3] -f(x)-> [2,3,4] -y(x)-> [2,4] </h2>
+                        <h2> [1,2,3] &#8594; f(x) &#8594; [2,3,4] &#8594; y(x) &#8594; [2,4] </h2>
                     </section>
 
                 </section>
 
                 <section> 
-                    <h1> So not functional </h1>
+                    <h1> So not going to be functional </h1>
                     <h2>but steals core principles for major operations </h2>
                 </section>
 
@@ -93,27 +62,8 @@ def f(x):
                     <section>
                         <h2> Making objects Immutable </h2>
                     </section>
-                    <section id="functional-tools"> 
-
-<pre><span style="font-size:25pt">
-    def __setattr__(self, name, value):
-        raise Exception()
-</span></pre>
-                    </section>
-                    <section>
-<pre><span style="font-size:20pt">
-class ImmutableClass():
-    def __init__(self, attrs={}):
-        self.__dict__ = attrs
-
-    def __setattr__(self, name, value):
-        raise Exception("Immutable Class can't be changed")
-
-da_instance = ImmutableClass({"name":"matt"})
-da_instance.name 
->>matt
-</span></pre>
-                    </section>
+                    <section class="immutable-method"> </section>
+                    <section class="immutable-class"> </section>
                     <section> 
                         <h2> How do I add data to them ? </h2>
                     </section>
@@ -136,43 +86,21 @@ da_instance.name
                         <h2> Map, filter, and list comprehensions </h2>
                     </section>
 
-                    <section>
-                    <h2> List Comprehensions </h2>
-<pre><span style="font-size:20pt">
-        numbers = [ num + 1 for num in range(1,11) ] 
-</pre></span>
+                    <section class="list-comprehension">
+                        <h2> List Comprehensions </h2>
                     </section>
 
-                    <section>
-                    <h2> Map </h2>
-<pre><span style="font-size:20pt">
-        i_numbers = range(1,11)
-        i_numbers = map(
-                lambda i_num: i_num + 5}),
-                i_numbers)
-</pre></span>
+                    <section class="map">
+                        <h2> Map </h2>
                     </section>
 
-                    <section>
-                    <h2> Higher order Functions</h2>
-<pre><span >
-        def converter(num):
-            return ImmutableClass({"number":num.number + 2})
-
-        i_numbers = [ ImmutableClass({"number":num}) for num in range(1,11) ] 
-
-        new_numbers = map(converter, i_numbers)
-</pre></span>
+                    <section class="higher-functions">
+                        <h2> Higher order Functions</h2>
                     </section>
 
-                    <section>
-                    <h2> Filter </h2>
-<pre><span style="font-size:20pt">
-        i_numbers = [ num for num in range(1,11) ] 
-        i_numbers = filter(lambda num: num % 2, i_numbers)
-</pre></span>
+                    <section class="filter">
+                        <h2> Filter </h2>
                     </section>
-
 
                     <section>
                         <h2> Use for loops </h2>
@@ -212,20 +140,7 @@ da_instance.name
                         <li> a file </li>
                         <p> ...should all look the same </p>
                     </section>
-                    <section>
-<pre>
-def _get_filtered_projects():
-    projects = ProjectList(localdata.getProjectsXML())
-    current_user = sessiondata.get_key('user_id')
-
-    user_projects = listify(localdata.user_projects(current_user))
-
-    projects = remove_private_projects(projects, user_projects)
-    projects = filter_on_ids(projects,  config.ignore)
-
-    return remove_private_projects(projects, user_projects)
-
-</pre>
+                    <section class="filtered-projects">
                     </section>
                     <section>
 <pre>
@@ -235,7 +150,6 @@ def _get_filtered_projects():
 </pre>
                     </section>
 
-
                 </section>
 
                 <section>
@@ -244,27 +158,10 @@ def _get_filtered_projects():
 
                 <section>
                     <section>
-                    <h2> Test are Reallier...</h2>
-                    <h2> ...and more expressive because of it ! </h2>
+                        <h2> Test are Reallier...</h2>
+                        <h2> ...and more expressive because of it ! </h2>
                     </section>
-                    
-                    <section>
-<pre>
-    def test_remove_private_projects(self):
-        my_project_ids=[2222222]
-        project_list = [
-            Project({"id":"1111111", "public":"false", "name":"Project 1"}),
-            Project({"id":"2222222", "public":"false", "name":"Project 2"}),
-            Project({"id":"3333333", "public":"true", "name":"Project 3"})]
-
-        public_projects = remove_private_projects(project_list, my_project_ids)
-
-        self.assertEqual(len(public_projects), 2)
-        self.assertEqual(public_projects[0].name, "Project 2")
-        self.assertEqual(public_projects[1].name, "Project 3")
-
-
-</pre>
+                    <section class="remove-private-projects-test">
                     </section>
                 </section>
                     
@@ -272,23 +169,7 @@ def _get_filtered_projects():
                     <section>
                         <h2> Test are much easier to write </h2>
                     </section>
-                    <section>
-<pre>
-    def test_remove_private_projects(self):
-        my_project_ids=[2222222]
-        project_list = [
-            Project({"id":"1111111", "public":"false", "name":"Project 1"}),
-            Project({"id":"2222222", "public":"false", "name":"Project 2"}),
-            Project({"id":"3333333", "public":"true", "name":"Project 3"})]
-
-        public_projects = remove_private_projects(project_list, my_project_ids)
-
-        self.assertEqual(len(public_projects), 2)
-        self.assertEqual(public_projects[0].name, "Project 2")
-        self.assertEqual(public_projects[1].name, "Project 3")
-
-
-</pre>
+                    <section class="remove-private-projects-test">
                     </section>
                 </section>
 
@@ -316,59 +197,13 @@ def _get_filtered_projects():
                         <h2> ORM's do a lot for us </h2>
                         <h3> Database Interactions can get out of hand </h3>
                     </section>
-                    <section> 
+                    <section class="model-to-dict"> 
                         <h2> Step 1. Convert Django's ORM to hash </h2>
-<pre>
-def model_to_dict(django_model, depth=1):
-    temp_dict = {}
-    for field in django_model._meta.local_fields:
-        field_value = getattr(django_model, field.name)
-
-        if isinstance(field, ForeignKey) and field_value is not None:
-            if depth > 0:
-                temp_dict[field.name] = model_to_dict(field_value, depth - 1)
-        else:
-            temp_dict[field.name] = field_value
-
-    if depth > 0:
-        for field in django_model._meta.local_many_to_many:
-            field_list = []
-            for m2m_item in getattr(django_model, field.name).all():
-                field_list.append(model_to_dict(m2m_item, depth -1))
-            temp_dict[field.name] = field_list
-
-    return temp_dict
-</pre>
                     </section>
-                    <section>
-                        <h2> Step 2.  Fancy hash </h2>
-<pre>
-class FancyHash():
-    def __init__(self, attrs={}):
-        for key, value in attrs.items():
-            if isinstance(value, list):
-                attrs[key] = [ImmutableModel(da_hash) for da_hash in value]
-            elif isinstance(value, dict):
-                attrs[key] = ImmutableModel(value)
-
-        self.__dict__ = attrs
-
-</pre>
-                    </section>
-                    <section>
-<pre>
-i_default = FancyHash({"name":"me"})
-print i_default.name
->>me
-
-i_hash = FancyHash({"author":{"name":"me"}})
-print i_hash.author.name
->>me
-
-i_list = FancyHash({"simple_list":[{"key":"value"}]})
-print i_list.simple_list[0].key
->>value
-</pre>
+                        <section class="fancy-hash">
+                            <h2> Step 2.  Fancy hash </h2>
+                        </section>
+                    <section class="use-fancy-hash">
                     </section>
                 </section>
 
@@ -376,9 +211,8 @@ print i_list.simple_list[0].key
                     <h1> The Ugly </h1>
                 </section>
 
-                <section>
+                <section class="backwards">
                     <h2> You aren't used to it. </h2>
-                    <pre><span style="font-size:30pt"> new_data = module.function(old_data) </span></pre>
                 </section>
 
                 <section>
@@ -436,9 +270,21 @@ print i_list.simple_list[0].key
         </script>
         <script type="text/javascript" src="js/inject.js"></script>
         <script type="text/javascript">
-            //inject_example("functional_tools_test.py", "functional-tools", "immutable_class");
-            //inject_example("add_two.py", "add-two");
-            //inject_example("pseudocode/add_two.", "add-two-with-state");
+            //inject examples takes the form file_name, inject_within_css_class, restrict_example_around_comment
+            inject_example("functional_tools_test.py", "immutable-method", "immutable_method");
+            inject_example("functional_tools_test.py", "immutable-class", "immutable_class");
+            inject_example("add_two_test.py", "add-two", "add-two");
+            inject_example("pseudocode/add_two", "add-two-with-state");
+            inject_example("functional_tools_test.py", "list-comprehension", "list_comprehension");
+            inject_example("functional_tools_test.py", "map", "map");
+            inject_example("functional_tools_test.py", "higher-functions", "higher_functions");
+            inject_example("functional_tools_test.py", "filter", "filter");
+            inject_example("immutable_models_test.py", "model-to-dict", "model_to_dict");
+            inject_example("immutable_models_test.py", "fancy-hash", "fancy_hash");
+            inject_example("pseudocode/backwards", "backwards", "backwards");
+            inject_example("pseudocode/trackerExamples", "filtered-projects", "filtered_projects");
+            inject_example("pseudocode/trackerExamples", "remove-private-projects-test", "remove_private_projects_test");
+            inject_example("pseudocode/fancy_hash_use_case", "use-fancy-hash");
          
         </script>
     </body>

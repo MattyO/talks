@@ -1,6 +1,10 @@
+//TODO add css class option to javascript code
+var css_for_code = "font-size:30pt; line-height:1.2em;";
+
 function inject_code(code_string, element_id){
     //alert("including code functions");
-    $("#" + element_id).append("<pre>" + code_string + "</pre>");
+    $("." + element_id).append('<pre style="' + css_for_code + '">' + code_string + "</pre>");
+    //$("#" + element_id + "<pre>").css("font-size:20pt");
 }
 
 function is_special_comment(line, label){
@@ -38,13 +42,16 @@ function inject_example(filename, element_id, label){
     $.ajax({
         url: "code/" + filename,
         dataType: "text",
+        isLocal:true,
         error: function(request, status_string, error_string){
-            alert(error_string);
+            console.log("some shit went down");
         },
         success: function(data, text_status){
 
             if( label != null){
+                //look for super special comment in code
                 code_subset = get_label(data, label);
+                //aka we couldn't find super special comment in file 
                 if(code_subset != ""){
                     data = code_subset;
                 }

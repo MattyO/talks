@@ -54,7 +54,7 @@ def load_fixture():
             title="A Tale of no Cities",
             author=jingleheimer,
             location=our_library)
-
+### model_to_dict
 def model_to_dict(django_model, depth=1):
     temp_dict = {}
     for field in django_model._meta.local_fields:
@@ -74,20 +74,22 @@ def model_to_dict(django_model, depth=1):
             temp_dict[field.name] = field_list
 
     return temp_dict
+### end model_to_dict
 
-class ImmutableModel():
+### fancy_hash
+class FancyHash():
     def __init__(self, attrs={}):
         for key, value in attrs.items():
             if isinstance(value, list):
-                attrs[key] = [ImmutableModel(da_hash) for da_hash in value]
+                attrs[key] = [FancyHash(da_hash) for da_hash in value]
             elif isinstance(value, dict):
-                attrs[key] = ImmutableModel(value)
+                attrs[key] = FancyHash(value)
 
         self.__dict__ = attrs
 
     def __setattr__(self, name, value):
         raise Exception("Immutable Class can't be changed")
-
+### end fancy_hash
 
 class ImmutableModelTest(unittest.TestCase):
 

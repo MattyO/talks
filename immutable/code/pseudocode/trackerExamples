@@ -1,0 +1,27 @@
+### filtered_projects
+def _get_filtered_projects():
+    projects = ProjectList(localdata.getProjectsXML())
+    current_user = sessiondata.get_key('user_id')
+
+    user_projects = listify(localdata.user_projects(current_user))
+
+    projects = remove_private_projects(projects, user_projects)
+    projects = filter_on_ids(projects,  config.ignore)
+
+    return remove_private_projects(projects, user_projects)
+### end filtered_projects
+
+### remove_private_projects_test
+    def test_remove_private_projects(self):
+        my_project_ids=[2222222]
+        project_list = [
+            Project({"id":"1111111", "public":"false", "name":"Project 1"}),
+            Project({"id":"2222222", "public":"false", "name":"Project 2"}),
+            Project({"id":"3333333", "public":"true", "name":"Project 3"})]
+
+        public_projects = remove_private_projects(project_list, my_project_ids)
+
+        self.assertEqual(len(public_projects), 2)
+        self.assertEqual(public_projects[0].name, "Project 2")
+        self.assertEqual(public_projects[1].name, "Project 3")
+### end remove_private_projects_test
