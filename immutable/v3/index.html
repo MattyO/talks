@@ -1,0 +1,499 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+<meta charset="utf-8">
+
+<title>Stateless Webapps</title>
+
+<meta name="description" content="a totaly awsome presentation">
+<meta name="author" content="Matt ODonnell">
+
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+<link rel="stylesheet" href="css/reveal.min.css">
+<link rel="stylesheet" href="css/theme/default.css" id="theme">
+<!-- For syntax highlighting -->
+<link rel="stylesheet" href="lib/css/zenburn.css">
+
+<!-- If the query includes 'print-pdf', use the PDF print sheet -->
+<script>
+document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+</script>
+
+<!--[if lt IE 9]>
+        <script src="lib/js/html5shiv.js"></script>
+        <![endif]-->
+<style> 
+.important{
+    color: red;
+}
+.big-code{
+    font-size: 2em;
+}
+
+</style> 
+</head>
+
+<body>
+
+<div class="reveal">
+
+    <!-- Any section element inside of this container is displayed as a slide -->
+    <div class="slides">
+        <section> 
+            <h1> Matt O'Donnell  </h1>
+            <img src="img/megamind_croped.jpg" />
+            <h2> @ odonnell004 </h2>
+            <h2> mavenrd.com </h2>
+        </section> 
+        <section> 
+            <h1> SCNA </h1>
+        </section>
+        <section>
+            <h1> Boundries </h1>
+            <iframe width="560" height="315" src="//www.youtube.com/embed/yTkzNHF6rMs" frameborder="0" allowfullscreen></iframe>
+        </section>
+
+        <section>
+            <h2> What does functional programing look like in python ? </h2>
+        </section>
+
+        <section>
+            <section>
+                <h1> Series of funcations </h1>
+            </section>
+            <section>
+                <h1>f(x) = x * 2</h1>
+            </section>
+            <section>
+                <h1>f(x) -> y(x) -> z(x) </h1>
+            </section>
+            <section>
+                <h1> data as edges </h1>
+            </section>
+            <section>
+                <h2> f(x) --data--> y(x) --data--> z(x)</h2>
+            </section>
+            <section>
+                <h1>f(x) = x * 2</h1>
+            </section>
+        </section>
+        <section>
+            <section>
+                <h1>Your data is your API </h1>
+            </section>
+            <section>
+                <pre> <code data-trim style="font-size: 30px; line-height:1.2em;"> 
+{ "name" : "toyota" }
+
+                </code> </pre>
+            </section>
+            <section>
+                <pre> <code data-trim style="font-size: 30px; line-height:1.2em;"> 
+{
+"name" : "toyota", 
+"engine": { 
+    "type" : "default", 
+    "size":"small"
+    }
+}
+
+                </code> </pre>
+            </section>
+
+        </section>
+        <section>
+            <h1> Caution </h1>
+        </section>
+        <section>
+            <section>
+                <h1> 1st Experement</h1>
+                <h2> <a href="https://github.com/MattyO/trackerCharts"> trackerCharts </a> </h2>
+            </section>
+            <section> 
+                <h2> 2 patterns </h2> 
+                <ol>
+                    <li> place.info_type("specific_id")</li>
+                    <li> data = operation(data) </li>
+                </ol>
+            </section>
+            <section>
+                <pre> <code data-trim style="font-size: 30px; line-height:1.2em;"> 
+@app.route("/")
+def overview():
+    current_user = session.get('user_id')
+    projects = ProjectList(localdata.getProjectsXML())
+    stories = _stories_for(list_ids(projects))
+
+    stories = keep_by_ids(stories, ids_for_in_progress(stories))
+    stories = prettify_stories(stories)
+    stories = add_project_names(stories, projects)
+
+    return render_template('index.html', projects=projects,user=current_user,states=possible_states, stories=stories)
+                </pre> </code>
+            </section>
+
+            <section>
+                <pre > <code data-trim contenteditable style="font-size: 30px; line-height:1.2em;"> 
+def map(request):
+    c = _standard_context()
+
+    cleveland = find_by_name(c["neighborhoods"], "Cleveland")
+    points = db.get_confirmed_pois()
+
+    points = sort_by_position(points, get_location(cleveland))
+
+    c.update({"points": points })
+
+    return render(request, "bikefinder/map.html", c)
+                </pre> </code>
+            </section>
+
+        </section>
+        <section>
+            <section>
+                <h1>Testing... </h1>
+            </section>
+            <section>
+                <h1>Best Practices... </h1>
+            </section>
+            <section>
+                <h1>Mocking</h1>
+
+                <pre> <code data-trim contenteditable style="font-size: 30px; line-height:1.2em;"> 
+m StringIO import StringIO
+>>> def foo():
+...     print 'Something'
+...
+>>> @patch('sys.stdout', new_callable=StringIO)
+... def test(mock_stdout):
+...     foo()
+...     assert mock_stdout.getvalue() == 'Something\n'
+...
+>>> test()
+                </code></pre>
+            </section>
+            <section>
+                <h1>f(x) -> y(x) -> z(x) </h1>
+            </section>
+            <section>
+                <h1> <span class="important">f(x)</span> -> y(x) -> z(x) </h1>
+            </section>
+            <section>
+                <h1>(data)-> y(x) -> z(x) </h1>
+            </section>
+            <section>
+                <pre> <code data-trim contenteditable style="font-size: 30px; line-height:1.2em;"> 
+    def test_remove_private_projects(self):
+        my_project_ids=[2222222]
+        project_list = [
+            Project({"id":"1111111", "public":"false", "name":"Project 1"}),
+            Project({"id":"2222222", "public":"false", "name":"Project 2"}),
+            Project({"id":"3333333", "public":"true", "name":"Project 3"})]
+
+        public_projects = remove_private_projects(project_list, my_project_ids)
+
+        self.assertEqual(len(public_projects), 2)
+        self.assertEqual(public_projects[0].name, "Project 2")
+        self.assertEqual(public_projects[1].name, "Project 3")
+</code> </pre>
+            </section>
+        </section>
+        <section>
+            <section>
+                <h2>Square brackets are a pain</h2>
+            </section>
+            <section>
+                <h1>Result: FancyHash </h1>
+                <p> Turn dictionaries into classes with attributes</p>
+            </section>
+            <section>
+                <pre> <code data-trim style="font-size: 30px; line-height:1.2em;">
+class NotSoFancy():
+    def __init__(self, a_dictonary):
+            self.__dict__ = a_dictonary 
+                </pre> </code>
+            </section>
+            <section>
+                <h2> Recursive constructor for the win ! </h2>
+            </section>
+            <section>
+                <pre> <code data-trim style="font-size: 30px; line-height:1.2em;"> 
+class FancyHash():
+    def __init__(self, a_dictonary):
+        for key, value in a_dictonary.items():
+            if instanceof(value, dict):
+                self.__dict__[key] = FancyHash(value)
+            else:
+                self.__dict__[key] = value 
+
+                </pre> </code>
+            </section>
+        </section>
+
+        <section>
+            <h1> 2nd Experement </h1>
+        </section>
+
+        <section>
+            <h2>How do you use data from an ORM in a functional way ?</h2>
+        </section>
+        <section>
+            <h1>_meta</h1>
+            <ul>
+                <li>_meta.local_fields</li>
+                <li> local_field isinstance ForeignKey ?</li>
+                <li>_meta.local_many_to_many</li>
+            </ul>
+        </section>
+        <section>
+            <h2> Convert ORM to Dicts > FancyHash </h3>
+            <h3> Follows ORM's rules and forgets about the database </h3>
+        </section>
+        <section>
+            <section> 
+                <pre class="linenums"> <code data-trim style="font-size: 30px; line-height:1.2em;"> 
+class FancyModel(BaseFancy):
+    def __init__(self, django_model):
+        temp_dict = {}
+
+=====>  for field in django_model._meta.local_fields: 
+            ...
+                </code> </pre>
+
+            </section>
+            <section>
+                <pre class="linenums"> <code data-trim style="font-size: 30px; line-height:1.2em;"> 
+class FancyModel(BaseFancy):
+    def __init__(self, django_model):
+        temp_dict = {}
+
+        for field in django_model._meta.local_fields: 
+            field_value = getattr(django_model, field.name)
+=========>  if isinstance(field, ForeignKey) and field_value is not None:
+                temp_dict[field.name] = self.__class__(field_value, depth - 1)
+            else:
+                ...
+                </code> </pre>
+
+            </section>
+            <section>
+                <pre class="linenums"> <code data-trim style="font-size: 30px; line-height:1.2em;"> 
+class FancyModel(BaseFancy):
+    def __init__(self, django_model):
+        temp_dict = {}
+
+        for field in django_model._meta.local_fields: 
+            field_value = getattr(django_model, field.name)
+            if isinstance(field, ForeignKey) and field_value is not None:
+                temp_dict[field.name] = self.__class__(field_value, depth - 1)
+            else:
+=========>      temp_dict[field.name] = field_value
+
+        ....
+                </code> </pre>
+
+            </section>
+            <section>
+                <pre class="linenums"> <code data-trim style="font-size: 30px; line-height:1.2em;"> 
+class FancyModel(BaseFancy):
+    def __init__(self, django_model):
+        temp_dict = {}
+
+        for field in django_model._meta.local_fields: 
+            ....
+
+=====>  for field in django_model._meta.local_many_to_many:
+            ....
+                </code> </pre>
+
+            </section>
+            <section>
+                <pre class="linenums"> <code data-trim style="font-size: 30px; line-height:1.2em;"> 
+class FancyModel(BaseFancy):
+    def __init__(self, django_model):
+        temp_dict = {}
+        ....
+
+        for field in django_model._meta.local_many_to_many:
+            field_list = []
+=========>  for m2m_item in getattr(django_model, field.name).all():
+                field_list.append(self.__class__(m2m_item, depth -1))
+            temp_dict[field.name] = field_list
+
+        ....
+
+                </code> </pre>
+
+            </section>
+            <section>
+                <pre class="linenums"> <code data-trim style="font-size: 30px; line-height:1.2em;"> 
+class FancyModel(BaseFancy):
+    def __init__(self, django_model):
+        temp_dict = {}
+
+        for field in django_model._meta.local_fields: 
+           ....
+
+        for field in django_model._meta.local_many_to_many:
+           ....
+
+=====>  self.__dict__.update(temp_dict)
+                </code> </pre>
+
+            </section>
+        </section>
+        <section> 
+            <section> 
+                <h1> The DB module </h1>
+            </section>
+            <section> 
+                <h2> db.py </h2>
+                <pre> <code data-trim style="font-size: 30px; line-height:1.2em;"> 
+from django.contrib.auth.models import User
+from api.models import School, DaClass, ClassSession
+import datetime
+from changeless.decorators import fancy_list, fancy_gen
+
+@fancy_list(depth=0)
+def all_schools():
+    return School.objects.all()
+
+@fancy_gen
+def all_classes():
+    return DaClass.objects.all()
+
+@fancy_list
+def todays_classes():
+    today_start = datetime.date.today()
+    today_end = datetime.date.today() + datetime.timedelta(hours=24)
+    return ClassSession.objects.filter(start_time__gte=today_start, start_time__lte=today_end)
+
+@fancy_list
+def check_in(user_id, session_id):
+    session = ClassSession.objects.get(session_id)
+    user = User.objects.get(user_id)
+    session.check_ins.add(user)
+    session.save()
+
+@fancy_gen
+def class_sessions(class_id):
+    return ClassSession.objects.filter(da_class__id==class_id)
+
+                </code> </pre>
+            </section>
+            <section> 
+                <h2> views.py </h2>
+                <pre> <code data-trim style="font-size: 30px; line-height:1.2em;"> 
+import myapp.db as db
+from django.http import HttpResponse
+from changeless.methods import to_json
+
+def jsonify(changeless_list):
+    return HttpResponse(to_json(changeless_list), content_type="application/json")
+
+def all_schools(request):
+    return jsonify(db.all_schools())
+
+def all_classes(request):
+    return jsonify(db.all_classes())
+                </pre> </code>
+            </section>
+
+        </section>
+        <section> 
+            <h1>  Changeless  </h1>
+            <h2> <a href="https://pypi.python.org/pypi/changeless"> https://pypi.python.org/pypi/changeless </a> </h2>
+        </section>
+        <section>
+            <h1>Give a name to a thing</h1>
+        </section>
+        <section>
+            <h1>Your data is your API </h1>
+        </section>
+        <section>
+            <h3> 3 projects 4 conditionals</h2>
+            <h3> super deterministic</h2>
+            <h3> controllers require an integration test. slow :(</h3>
+        </section>
+        <section> 
+            <h2> Cheaper integration tests </h2>
+            <p> foo(x) -> bar(x) -> <span class="important"> y(x) ->  z(x) ->  biz(x) </span> -> baz(x) -> data </p>
+        </section>
+        <section> 
+            <h1> Service oriented architectures  </h1>
+        </section>
+        <section> 
+            <h1> State can be dangerous... </h1>
+            <h2> And avoidable </h2>
+        </section>
+
+        <section> 
+            <section> 
+                <h2> What qualities do you want your code to to emulate?  </h2> 
+            </section>
+            <section> 
+                <h2> What can you do differently?  </h2> 
+            </section>
+            <section> 
+                <h1> Experement!!  </h1> 
+            </section>
+        </section>
+
+        <section>
+            <h1> Super huge Thanks ! </h1>
+        </section>
+
+        <section>
+            <h2> <a href="mavenrd.com/talks/immutable/v3"> mavenrd.com/talks/immutable/v3 </a> </h2>
+            <ul> 
+                <li> odonnell004 </li>
+                <li> mavenrd.com </li>
+                <li> github.com/MattyO</li>
+                <li> github.com/MattyO/trackerCharts </li>
+                <li> github.com/MattyO/changeless</li>
+                <li> https://pypi.python.org/pypi/changeless </li>
+            </ul>
+        </section>
+    </div>
+
+</div>
+
+<script src="lib/js/head.min.js"></script>
+<script src="js/reveal.min.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"> </script>
+
+<script>
+
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+    controls: true,
+    progress: true,
+    history: true,
+    center: true,
+    width: $(document).width(),
+    height:$(document).height(),
+
+    theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+    transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+    // Optional libraries used to extend on reveal.js
+    dependencies: [
+        { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+        { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+        { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+        { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+        { src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+        { src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+    ]
+});
+
+</script>
+
+</body>
+</html>
