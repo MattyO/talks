@@ -1,0 +1,408 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+
+    <title></title>
+
+    <meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+    <meta name="author" content="Hakim El Hattab">
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <link rel="stylesheet" href="css/reveal.min.css">
+    <link rel="stylesheet" href="css/theme/default.css" id="theme">
+
+    <!-- For syntax highlighting -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+
+    <!-- If the query includes 'print-pdf', include the PDF print sheet -->
+    <script>
+      if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = 'css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+      }
+    </script>
+
+    <!--[if lt IE 9]>
+    <script src="lib/js/html5shiv.js"></script>
+    <![endif]-->
+
+  <style> 
+  .important{
+      color: red;
+  }
+  .big-code{
+      font-size: 2em;
+  }
+
+  </style>
+  </head>
+
+  <body>
+
+    <div class="reveal">
+
+      <!-- Any section element inside of this container is displayed as a slide -->
+      <div class="slides">
+        <section>
+          <h1> Behavior Driven Design with PyQt </h1>
+        </section>
+        <section>
+          <section>
+            <h1> BDD? </h1>
+          </section>
+          <section>
+            <p>In software engineering, behavior-driven development (BDD) is a software development process based on test-driven development. Behavior-driven development combines the general techniques and principles of TDD with ideas from domain-driven design and object-oriented analysis and design to provide software development and management teams with shared tools and a shared process to collaborate on software development</p>
+          </section>
+          <section>
+            <h2> A form of TDD where the tests are… </h2>
+          </section>
+          <section>
+            <h2>...from the perspective and using the language of the person using our software.</h2>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h2> The norm </h2>
+            <img src="math_test_big.png" />
+          </section>
+          <section>
+            <h2> The part a person cares about </h2>
+            <img src="./math_test_important_big.png " />
+          </section>
+          <section>
+            <h1>language == Words ! </h1>
+          </section>
+          <section>
+            <p style="font-size:60px"> When I add 2 + 2 </p>
+            <p style="font-size:60px"> Then the result is 4 </p>
+          </section>
+          <section>
+            <h1> The app </h1>
+          </section>
+          <section>
+            <img src="instruments.jpg" style="height: 600px"/>
+          </section>
+          <section>
+            <img src="my_instruments.png" />
+          </section>
+          <section>
+            <h2> Has two main processes </h2> 
+            <ul>
+              <li> UI </li>
+              <li> Sensors </li>
+            <ul>
+          </section>
+          <section>
+            <pre> <code style="font-size: 25px; line-height:1.2em; max-height: 600px"> 
+Feature: Bearing
+    As the person steering
+    In order to win the race
+    I want to see the bearing towards the next mark
+
+Senario: Entering a Mark
+    Given the app is running
+    And my position is 81.6697 W 41.4822 N
+    And I press the GOTO button
+    And I enter the new mark
+        | longitude | latatude  |
+        | -78.8494  | 42.9047   |
+    And I press 'Submit'
+    Then I see the bearing 234
+            </code> <pre>
+          </section>
+        </section>
+
+        <section>
+          <h2> Given the app is running </h2>
+        </section>
+        <section>
+          <h2>simplest application</h2>
+            <pre> <code style="font-size: 25px; line-height:1.2em;">
+import sys
+
+app = Qt.QApplication([])
+engine = Qt.QQmlEngine()
+component = Qt.QQmlComponent(engine)
+component.loadUrl(Qt.QUrl('app.qml')) 
+window = component.create()
+window.show()
+            </code> </pre>
+
+        </section>
+        <section>
+          <img src="qml_big.png"/>
+        </section>
+        <section> 
+          <h2> Given the app is running </h2>
+        </section>
+        <section> 
+            <pre> <code style="font-size: 25px; line-height:1.2em;">
+app_location = '/Users/matt/workspace/instruments/app.py'
+world.application = subprocess.Popen(['python', app_location])
+pqaut.client.wait_for_automation_server()
+            </code> </pre>
+        </section>
+        <section>
+          <h2> The automation server</h2>
+          <pre> <code style="font-size: 25px; line-height:1.2em;">
+import sys
+import pqaut.server
+
+app = Qt.QApplication([])
+pqaut.server.start_automation_server()
+engine = Qt.QQmlEngine()
+component = Qt.QQmlComponent(engine)
+component.loadUrl(Qt.QUrl('app.qml')) 
+window = component.create()
+window.show()
+          </code> </pre>
+
+        </section>
+
+        <section>
+          <h2> And my position is 81.6697 W 41.4822 N </h2>
+        </section>
+        <section> 
+            <pre> <code style="font-size: 25px; line-height:1.2em;">
+args = (host='0.0.0.0', port=9001)
+lettuce.world.qtapp = bjsonrpc.connect(*args)
+
+...
+
+@step(u'And my position is 81.23 W 41.123 N')
+def and_my_position_is_81_23_w_41_123_n(step):
+    position = {'lat': 41.4822, 'lng':-81.6697}
+    lettuce.world.qtapp.call.change_position(**position)
+            </code> </pre>
+        </section>
+
+        <section>
+          <h2> When I press the GOTO button </h2>
+        </section>
+        <section> 
+            <h2> Before </h2>
+            <pre> <code style="font-size: 25px; line-height:1.2em;">
+@lettuce.step('And I press the GOTO button')
+def i_press_the_goto_button(step)
+    browser = selenium.selenium.selenium('localhost', 8000, 'python app.py')
+    browser.click('#GOTO')
+            </code> </pre>
+        </section>
+        <section>
+          <h2> Now </h2>
+            <pre> <code style="font-size: 25px; line-height:1.2em;">
+@step(u'And I press the GOTO button')
+def and_i_press_the_goto_button(step):
+    pqaut.client.tap("goto")
+            </code> </pre>
+        </section>
+
+        <section>
+            <pre> <code style="font-size: 25px; line-height:1.2em;">
+@bottle.get("/ping")
+def ping():
+    if get_root_widget() is None:
+        bottle.abort(503, "Still booting up, try again later")
+
+    return 'Ping!'
+            </code> </pre>
+        </section>
+
+
+        <section>
+          <h1> Interacting with PyQt </h1>
+        </section>
+        <section>
+          <p> UI are represened by a tree of objects <p>
+          <p> Like a DOM tree, but created with Objects inhereting from the base Qt object QObject </p>
+        </section>
+        <section>
+          <h2> interacting with pyqt</h2>
+          <pre> <code style="font-size: 25px; line-height:1.2em;">
+import PyQt5.Qt as Qt
+Qt.QApplication.topLevelWindows()
+Qt.QApplication.topLevelWidgets()
+          </code> </pre>
+        </section>
+        <section>
+          <h2> Finding Children </h2>
+          <pre> <code style="font-size: 25px; line-height:1.2em;">
+findChildren() # QObjects, QQuickItems, QWidget
+contentItem()  # QQuickWindow
+rootObject()   # QQuickWidget
+          </code> </pre>
+        </section>
+
+        <section>
+          <h2> Clicking on things </h2>
+            <pre> <code style="font-size: 25px; line-height:1.2em;">
+QTest.mouseClick(top_level_widget, Qt.LeftButton, Qt.NoModified, point)
+            </code> </pre>
+        </section>
+
+        <section> 
+        <h2> And I enter the new mark </h2>
+
+        <pre> <code style="font-size: 25px; line-height:1.2em;">
+  And I enter the new mark
+      | longitude | latatude  |
+      | -78.8494  | 42.9047   |
+            </code> </pre>
+        </section>
+        <section> 
+
+        <pre> <code style="font-size: 25px; line-height:1.2em;">
+@step(u'And I enter the new mark')
+def and_i_enter_the_new_mark(step):
+    if step.hashes > 0:
+        new_mark = step.hashes[0]
+        pqaut.client.input("lat_text", new_mark['latatude'])
+        pqaut.client.input("lng_text", new_mark['longitude'])
+            </code> </pre>
+        </section>
+
+        <section>
+          <h2>And I press Submit </h2>
+        </section>
+        <section>
+          <pre> <code style="font-size: 25px; line-height:1.2em;">
+@step(u'And I press Submit')
+def and_i_press_group1(step):
+    pqaut.client.tap("Submit")
+            </code> </pre>
+        </section>
+        <section>
+          <ol>
+            <li> client sends message to click button </li>
+            <li> server gets message, finds qobject, and clicks on thing</li>
+            <br/>
+            <li> button emits signal that is has been clicked</li>
+            <li> form catches signal </li>
+            <li> form emits signal with info collected by form </li>
+            <li> bearing screen captures signal </li>
+            <li> code behind calcuates bearing and sets property</li>
+            <li> emits signal that property has been updated</li>
+            <li> qml updates bearing on the screen (through js engine)</li>
+          </ol>
+        </section>
+        <section>
+          <pre> <code style="font-size: 25px; line-height:1.2em; max-height: 600px">
+class Bearing(Qt.QQuickItem):
+
+    ....
+    def __init__(self, *args, **kwargs):
+        ....
+        pubsub.ps.set_mark.connect(self.update_mark)
+        ....
+          </code> </pre>
+        </section>
+        <section>
+          <pre> <code style="font-size: 25px; line-height:1.2em; max-height: 600px">
+    def update_mark(self, lat, lng):
+      ...
+      self.bearing = self.calc_bearing()
+      ....
+          </code> </pre>
+        </section>
+        <section>
+          <pre> <code style="font-size: 25px; line-height:1.2em; max-height: 600px">
+    def calc_bearing(self):
+        lat_diff = self.current_lat - self.mark_lat
+        lng_diff = self.current_lng - self.mark_lng
+
+        b = int(math.degrees(float(math.atan(math.fabs(lat_diff)) / math.fabs(lng_diff))))
+
+        if lat_diff >= 0 and lng_diff <= 0:
+            return str(b)
+        elif lat_diff <= 0 and lng_diff >= 0:
+            return str(b + 90)
+        elif lat_diff <= 0 and lng_diff <= 0:
+            return str(b + 180)
+        elif lat_diff >= 0 and lng_diff <=0:
+            return str(b + 270)
+          </code> </pre>
+        </section>
+
+
+        <section>
+          <h2>Then I see the bearing 234 </h2>
+        </section>
+        <section>
+          <pre> <code style="font-size: 25px; line-height:1.2em;">
+@step(u'Then I see the bearing 234')
+def then_i_see_the_bearing_234(step):
+    pqaut.client.assert_is_visible('234')
+          </code> </pre>
+        </section>
+        <section>
+          <img src="sucess.png" />
+        </section>
+        <section>
+          <h2> Final note on abstraction </h2>
+        </section>
+
+      </div>
+
+    </div>
+
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.min.js"></script>
+
+    <script>
+
+      // Full list of configuration options available here:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+
+        theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+        transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+        // Parallax scrolling
+        // parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+        // parallaxBackgroundSize: '2100px 900px',
+
+        // Optional libraries used to extend on reveal.js
+        dependencies: [
+          { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+          { src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+          { src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+        ]
+      });
+
+    </script>
+
+  </body>
+</html>
+        <section>
+            <h2> shared_steps.py </h2>
+            <pre> <code style="font-size: 25px; line-height:1.2em;">
+import lettuce
+import tests.utility.sensors as sensors
+
+@lettuce.step(And my position is ([\d\.\d]+ [EW]) ([\d\.\d]+ [NS]))
+def change_position(step, longitude, latitude)
+    sensors.change_position(longitude, latitude)
+
+@lettuce.step('And I press the GOTO button')
+def i_press_the_goto_button(step)
+    browser = selenium.selenium.selenium('localhost', 8000, 'python app.py')
+    browser.click('#GOTO')
+            </code> </pre>
+        </section>
